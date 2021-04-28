@@ -1,8 +1,8 @@
 import { response } from "express";
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
 
-
-
+dotenv.config();
 const validateJwt = ( req, res = response, next ) => {
     const SECRET_JWT_SEED = "Esto-Es-UnA-PaLabr@-SeCReta"
     const token = req.header('x-token');
@@ -18,7 +18,7 @@ const validateJwt = ( req, res = response, next ) => {
         
         const { descripcion,correcta } = jwt.verify(
             token,
-            SECRET_JWT_SEED
+            process.env.SECRET_JWT_SEED
         );
          
         req.descripcion = descripcion;
