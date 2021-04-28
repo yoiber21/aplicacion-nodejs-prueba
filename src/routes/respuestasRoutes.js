@@ -6,10 +6,10 @@ import respuestasControllers from '../controllers/respuestasControllers';
 const router = Router();
 
 router.post('/',  respuestasControllers.crearRespuestas);
-router.get('/',  respuestasControllers.obtenerRespuestas);
+
 router.use( validateJwt )
 
-
+router.get('/',  respuestasControllers.obtenerRespuestas);
 router.get('/:id',  respuestasControllers.obtenerRespuestaId);
 router.delete('/:id',  respuestasControllers.eliminarRespuestas);
 router.put('/:id',  respuestasControllers.actualizarRespuestas);
