@@ -98,7 +98,9 @@ const eliminarRespuestas = async(req, res = response)=> {
 
 
 const obtenerRespuestas = async (req, res  = response) => {
-    await pool.query(`SELECT pre.descripcion  as "respuesta",res.descripcion,res.correcta, res.id FROM respuestas 
+
+  const client = await pool.connect();
+   const result = await client.query(`SELECT pre.descripcion  as "respuesta",res.descripcion,res.correcta, res.id FROM respuestas 
     as res join preguntas as pre on res.id_res = pre.id`
     , (error, results) => {
        if (error) {
@@ -108,7 +110,7 @@ const obtenerRespuestas = async (req, res  = response) => {
       })
        }
        res.status(200).json(results.rows)
-       console.log(results.rows);
+       console.log(`El resultado ${result}`);
      })
     
 }
