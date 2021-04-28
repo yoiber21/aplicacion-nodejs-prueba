@@ -25,42 +25,45 @@ var crearRespuestas = /*#__PURE__*/function () {
           case 0:
             res = _args.length > 1 && _args[1] !== undefined ? _args[1] : _express.response;
             data = [req.body.descripcion, req.body.respuesta, req.body.correcta];
-            console.log(res);
-            _context.prev = 3;
-            _context.next = 6;
+            _context.prev = 2;
+            _context.next = 5;
             return _connection["default"].query("INSERT into respuestas(descripcion, id_res, correcta)  VALUES($1, $2, $3) ON CONFLICT DO NOTHING", data, function (error, results) {
               if (error) {
-                console.log(datos);
-                throw error;
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                }); //  throw error
               }
             });
 
-          case 6:
+          case 5:
             datos = _context.sent;
-            _context.next = 9;
+            _context.next = 8;
             return (0, _generarToken["default"])(req.body.descripcion, req.body.correcta);
 
-          case 9:
+          case 8:
             token = _context.sent;
             return _context.abrupt("return", res.status(200).json({
+              error: false,
               message: "Exito al registrar",
               token: token
             }));
 
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](3);
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](2);
             console.log(_context.t0);
             return _context.abrupt("return", res.status(400).json({
-              err: _context.t0
+              error: true,
+              message: "error"
             }));
 
-          case 17:
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[3, 13]]);
+    }, _callee, null, [[2, 12]]);
   }));
 
   return function crearRespuestas(_x) {
@@ -83,13 +86,16 @@ var actualizarRespuestas = /*#__PURE__*/function () {
             data = [req.body.descripcion, req.body.respuesta, req.body.correcta];
             _context2.prev = 3;
             _context2.next = 6;
-            return _connection["default"].query("update  respuestas set descripcion = $1, id_res = $2, correcta = $3 where id = ".concat(id), data, function (error, results) {
+            return _connection["default"].query("update  respuestas set descripcion = $1, id_res = $2, correcta = $3 where id = ".concat(req.body.id), data, function (error, results) {
               if (error) {
-                // console.log(error);
-                throw error;
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                });
               }
 
               res.status(200).json({
+                error: false,
                 message: "Actualizacion correcta"
               });
             });
@@ -103,7 +109,8 @@ var actualizarRespuestas = /*#__PURE__*/function () {
             _context2.t0 = _context2["catch"](3);
             console.log(_context2.t0);
             return _context2.abrupt("return", res.status(400).json({
-              err: _context2.t0
+              error: true,
+              message: "error"
             }));
 
           case 12:
@@ -134,11 +141,14 @@ var eliminarRespuestas = /*#__PURE__*/function () {
             _context3.next = 5;
             return _connection["default"].query("DELETE FROM respuestas where id = ".concat(id), function (error, results) {
               if (error) {
-                // console.log(error);
-                throw error;
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                });
               }
 
               res.status(200).json({
+                error: false,
                 message: "Eliminada"
               });
             });
@@ -152,7 +162,8 @@ var eliminarRespuestas = /*#__PURE__*/function () {
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
             return _context3.abrupt("return", res.status(400).json({
-              err: _context3.t0
+              error: true,
+              message: "error"
             }));
 
           case 11:
@@ -180,8 +191,10 @@ var obtenerRespuestas = /*#__PURE__*/function () {
             _context4.next = 3;
             return _connection["default"].query("SELECT pre.descripcion  as \"respuesta\",res.descripcion,res.correcta, res.id FROM respuestas \n    as res join preguntas as pre on res.id_res = pre.id", function (error, results) {
               if (error) {
-                console.log(error);
-                throw error;
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                });
               }
 
               res.status(200).json(results.rows);
@@ -215,8 +228,10 @@ var obtenerRespuestaId = /*#__PURE__*/function () {
             _context5.next = 4;
             return _connection["default"].query("SELECT * FROM respuestas where id = ".concat(id), function (error, results) {
               if (error) {
-                console.log(error);
-                throw error;
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                });
               }
 
               res.status(200).json(results.rows);

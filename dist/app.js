@@ -22,10 +22,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var app = (0, _express["default"])();
 /* middlewares */
 
-app.use((0, _morgan["default"])('dev')); //para ver las petiociones que llegan al servidor
-
-app.use((0, _bodyParser.json)()); // para procesar datos en formato json
-
+app.use((0, _morgan["default"])('dev'));
+app.use((0, _bodyParser.json)());
 app.use((0, _cors["default"])()); //Rutas
 
 app.use('/api/preguntas', _preguntasRoutes["default"]);

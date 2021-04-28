@@ -22,7 +22,13 @@ var crearPreguntas = /*#__PURE__*/function () {
             res = _args.length > 1 && _args[1] !== undefined ? _args[1] : _express.response;
             data = [req.body.descripcion];
             _context.prev = 2;
-            _context.next = 5;
+
+            if (!(req.body.descripcion !== undefined)) {
+              _context.next = 8;
+              break;
+            }
+
+            _context.next = 6;
             return _connection["default"].query("INSERT into preguntas(descripcion)  VALUES($1) ON CONFLICT DO NOTHING", data, function (error, results) {
               if (error) {
                 // console.log(error);
@@ -30,25 +36,34 @@ var crearPreguntas = /*#__PURE__*/function () {
               }
             });
 
-          case 5:
+          case 6:
+            console.log(req.body.descripcion);
             return _context.abrupt("return", res.status(200).json({
+              error: false,
               message: "Exito al registrar"
             }));
 
           case 8:
-            _context.prev = 8;
+            return _context.abrupt("return", res.status(400).json({
+              error: true,
+              message: "Error al registrar"
+            }));
+
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](2);
             console.log(_context.t0);
             return _context.abrupt("return", res.status(400).json({
-              err: _context.t0
+              error: true,
+              message: "Error al registrar"
             }));
 
-          case 12:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 8]]);
+    }, _callee, null, [[2, 11]]);
   }));
 
   return function crearPreguntas(_x) {
@@ -69,37 +84,42 @@ var actualizarPreguntas = /*#__PURE__*/function () {
             res = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : _express.response;
             id = req.params.id;
             data = [req.body.descripcion];
-            _context2.prev = 3;
-            _context2.next = 6;
+            console.log(req.body);
+            _context2.prev = 4;
+            _context2.next = 7;
             return _connection["default"].query("update  preguntas set descripcion = $1 where id = ".concat(id), data, function (error, results) {
               if (error) {
-                // console.log(error);
-                throw error;
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                });
               }
 
               res.status(200).json({
+                error: false,
                 message: "Actualizacion correcta"
               });
             });
 
-          case 6:
-            _context2.next = 12;
+          case 7:
+            _context2.next = 13;
             break;
 
-          case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2["catch"](3);
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](4);
             console.log(_context2.t0);
             return _context2.abrupt("return", res.status(400).json({
-              err: _context2.t0
+              error: true,
+              message: "error"
             }));
 
-          case 12:
+          case 13:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[3, 8]]);
+    }, _callee2, null, [[4, 9]]);
   }));
 
   return function actualizarPreguntas(_x2) {
@@ -122,11 +142,15 @@ var eliminarPreguntas = /*#__PURE__*/function () {
             _context3.next = 5;
             return _connection["default"].query("DELETE FROM preguntas where id = ".concat(id), function (error, results) {
               if (error) {
-                // console.log(error);
+                return res.status(400).json({
+                  error: true,
+                  message: "error"
+                });
                 throw error;
               }
 
               res.status(200).json({
+                error: false,
                 message: "Eliminada"
               });
             });
@@ -140,7 +164,8 @@ var eliminarPreguntas = /*#__PURE__*/function () {
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
             return _context3.abrupt("return", res.status(400).json({
-              err: _context3.t0
+              error: true,
+              message: "error"
             }));
 
           case 11:
